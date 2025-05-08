@@ -243,8 +243,17 @@ module.exports = {
         order: [['title', 'ASC']]
       });
 
+      // Добавляем поле image для каждой книги
+      const booksWithImage = books.map(book => {
+        const b = book.toJSON ? book.toJSON() : book;
+        return {
+          ...b,
+          image: b.image_url || null
+        };
+      });
+
       res.json({
-        books,
+        books: booksWithImage,
         total: count,
         currentPage: page,
         totalPages: Math.ceil(count / limit)
